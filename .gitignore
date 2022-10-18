@@ -1,0 +1,13 @@
+__pycache__/
+**/__pycache__
+__pycache__/*
+__pycache__
+__pycache__/constants.*
+__pycache__/constants*
+__pycache__/character.*
+__pycache__/character*
+
+debug*
+
+__pycache__/character.cpython-310.pyc
+
