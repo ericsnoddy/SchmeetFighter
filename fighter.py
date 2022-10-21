@@ -8,8 +8,10 @@ class Fighter:
         self.rect = pg.Rect(x, y, 80, 180)
         self.vel_y = 0
         self.jumping = False
+        self.attacking = False
+        self.attack_type = 0
 
-    def move(self, screen_width, screen_height):
+    def move(self, surf, screen_width, screen_height, fighter_2):
         SPEED = 10
         GRAVITY = 2
         move_vect = pg.math.Vector2(0,0)
@@ -17,16 +19,27 @@ class Fighter:
         # get key presses
         key = pg.key.get_pressed()
 
-        # movement
-        if key[pg.K_a]:
-            move_vect[0] = -SPEED
-        if key[pg.K_d]:
-            move_vect[0] = SPEED
+        # perform movements only if not attacking
+        if not self.attacking:
+            # movement
+            if key[pg.K_a]:
+                move_vect[0] = -SPEED
+            if key[pg.K_d]:
+                move_vect[0] = SPEED
 
-        # jumping
-        if key[pg.K_w] and not self.jumping:
-            self.vel_y = -30
-            self.jumping = True
+            # jumping
+            if key[pg.K_w] and not self.jumping:
+                self.vel_y = -30
+                self.jumping = True
+
+            # attacking
+            if key[pg.K_r] or key[pg.K_t]:
+                self.attack(surf, fighter_2)
+                # determine attack type
+                if key[pg.K_r]:
+                    self.attack_type == 1
+                if key[pg.K_t]:
+                    self.attack_type == 2
 
         # apply gravity
         self.vel_y += GRAVITY
@@ -45,6 +58,14 @@ class Fighter:
         # update position
         self.rect.x += move_vect[0]
         self.rect.y += move_vect[1]
+
+    def attack(self, surf, target):
+        # create rect for attack 2x as wide as character
+        attacking_rect = pg.Rect(self.rect.centerx, self.rect.y, 2 * self.rect.width, self.rect.height)
+        if attacking_rect.colliderect(target.rect):
+            print('Hit')
+
+        pg.draw.rect(surf, (0, 255, 0), attacking_rect)
 
     def draw(self, surf):
         pg.draw.rect(surf, (255, 0, 0), self.rect)
