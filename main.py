@@ -34,9 +34,13 @@ wizard_sheet = pg.image.load(join('assets', 'images', 'wizard', 'Sprites', 'wiza
 
 # define fighter variables
 WARRIOR_SIZE = 162  # px^2
-WARRIOR_DATA = [WARRIOR_SIZE]
+WARRIOR_SCALE = 4
+WARRIOR_OFFSET = [72, 56]
+WARRIOR_DATA = [WARRIOR_SIZE, WARRIOR_SCALE, WARRIOR_OFFSET]
 WIZARD_SIZE = 250
-WIZARD_DATA = [WIZARD_SIZE]
+WIZARD_SCALE = 3
+WIZARD_OFFSET = [112, 107]
+WIZARD_DATA = [WIZARD_SIZE, WIZARD_SCALE, WIZARD_OFFSET]
 
 # define number of frames per animation
 WARRIOR_ANIM_FRAMES = [10, 8, 1, 7, 7, 3, 7]

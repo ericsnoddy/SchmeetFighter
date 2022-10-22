@@ -6,11 +6,16 @@ class Fighter:
     def __init__(self, x, y, player_data, sprite_sheet, frame_number_list):
 
         self.size = player_data[0]  # px^2
-        self.flip = False
+        self.scale = player_data[1]  # image scaling
+        self.offset = player_data[2]  # px offset        
         self.anim_list = self.load_images(sprite_sheet, frame_number_list)
         self.action = 0  # 0: idle, 1: run, 2: jump, 3: attack1, 4: attack2, 5: hit, 6: death
+        self.frame_index = 0
+        self.image = self.anim_list[self.action][self.frame_index]
         self.rect = pg.Rect(x, y, 80, 180)
+
         self.vel_y = 0
+        self.flip = False
         self.jumping = False
         self.attacking = False
         self.attack_type = 0
@@ -22,12 +27,12 @@ class Fighter:
 
         for y, frames in enumerate(frame_number_list):
 
-            # temp img list
             temp_img_list = []
 
             # extract from sprite sheet
             for x in range(frames):
                 temp_img = sprite_sheet.subsurface(x * self.size, y * self.size, self.size, self.size)
+                temp_img = pg.transform.scale(temp_img, (self.size * self.scale, self.size * self.scale))
                 temp_img_list.append(temp_img)
 
             anim_list.append(temp_img_list)
@@ -100,4 +105,6 @@ class Fighter:
         pg.draw.rect(surf, (0, 255, 0), attacking_rect)
 
     def draw(self, surf):
+
         pg.draw.rect(surf, (255, 0, 0), self.rect)
+        surf.blit(self.image, (self.rect.x - (self.offset[0] * self.scale), self.rect.y - (self.offset[1] * self.scale)))
